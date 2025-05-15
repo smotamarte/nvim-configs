@@ -12,15 +12,15 @@ lspconfig.jdtls.setup {
     -- Example: Go to definition, hover, etc.
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr})
     -- Add more mappings as needed
   end,
 }
 
 -- Configure rust-analyzer
-lspconfig.rust_analyzer.setup({
+lspconfig.rust_analyzer.setup {
     -- Path to rust-analyzer binary
-    cmd = { "rust-analyzer" },
-    root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
+    cmd = { "/opt/homebrew/Cellar/rust-analyzer/2025-04-21/bin/rust-analyzer" },
     settings = {
       ["rust-analyzer"] = {
         assist = {
@@ -37,8 +37,10 @@ lspconfig.rust_analyzer.setup({
     },
     on_attach = function(client, bufnr)
       -- Key mappings and other setup
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts) 
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr})
       -- Add more mappings as needed
     end,
-  })
+  }

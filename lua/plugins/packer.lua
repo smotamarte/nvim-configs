@@ -48,14 +48,7 @@ local ensure_packer = function()
           require('plugins.treesitter') -- Ensure this line is added to load the Treesitter config
         end
       }
-
-      use {
-        'simrat39/rust-tools.nvim',
-        config = function()
-          require('plugins.rust-tools')
-        end
-      }
-
+ 
     if packer_bootstrap then
       require('packer').sync()
     end

@@ -32,8 +32,3 @@ set_keymap('n', '<Leader>ff', ':Telescope find_files<CR>', default_opts) -- Find
 set_keymap('n', '<Leader>fg', ':Telescope live_grep<CR>', default_opts) -- Live grep
 set_keymap('n', '<Leader>fb', ':Telescope buffers<CR>', default_opts) -- List buffers
 set_keymap('n', '<Leader>fh', ':Telescope help_tags<CR>', default_opts) -- Help tags
-
--- LSP mappings
-set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', default_opts) -- Go to definition
-set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', default_opts) -- Hover
-set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', default_opts) -- Rename
