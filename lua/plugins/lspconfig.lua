@@ -20,7 +20,7 @@ lspconfig.jdtls.setup {
 -- Configure rust-analyzer
 lspconfig.rust_analyzer.setup {
     -- Path to rust-analyzer binary
-    cmd = { "/opt/homebrew/Cellar/rust-analyzer/2025-04-21/bin/rust-analyzer" },
+    cmd = { "rust-analyzer" },
     settings = {
       ["rust-analyzer"] = {
         assist = {
