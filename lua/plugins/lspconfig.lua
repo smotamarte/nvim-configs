@@ -33,6 +33,9 @@ lspconfig.rust_analyzer.setup {
         procMacro = {
           enable = true,
         },
+	inlayHints = {
+	  enable = true,
+	}
       },
     },
     on_attach = function(client, bufnr)
