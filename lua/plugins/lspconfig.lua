@@ -2,6 +2,11 @@
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 
+local cmp_nvim_lsp = require('cmp_nvim_lsp')
+
+-- Capabilities for nvim-cmp
+local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- Configure the Java LSP server
 lspconfig.jdtls.setup {
   cmd = { '/opt/homebrew/bin/jdtls', '--jvm-heap', '1G' }, -- Replace 'java-lsp' with the path to jdtls if needed
@@ -46,4 +51,5 @@ lspconfig.rust_analyzer.setup {
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr})
       -- Add more mappings as needed
     end,
+    capabilities = capabilities,
   }
