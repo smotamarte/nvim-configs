@@ -9,47 +9,94 @@ local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_cli
 
 -- Configure the Java LSP server
 lspconfig.jdtls.setup {
-  cmd = { '/opt/homebrew/bin/jdtls', '--jvm-heap', '1G' }, -- Replace 'java-lsp' with the path to jdtls if needed
-  settings = {
-  },
-  on_attach = function(client, bufnr)
-    -- Key mappings and other setup
-    -- Example: Go to definition, hover, etc.
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr})
-    -- Add more mappings as needed
-  end,
+	settings = {
+		java = {
+			home = '/opt/homebrew/Cellar/openjdk@21/21.0.7/libexec/openjdk.jdk/Contents/Home'
+		},
+	},
+	on_attach = function(client, bufnr)
+		-- Key mappings and other setup
+		-- Example: Go to definition, hover, etc.
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
+		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
+		-- Add more mappings as needed
+	end,
+	capabilities,
 }
 
 -- Configure rust-analyzer
-lspconfig.rust_analyzer.setup {
-    -- Path to rust-analyzer binary
-    cmd = { "rust-analyzer" },
-    settings = {
-      ["rust-analyzer"] = {
-        assist = {
-          importGranularity = "crate",
-          importPrefix = "by_self",
-        },
-        cargo = {
-          loadOutDirsFromCheck = true,
-        },
-        procMacro = {
-          enable = true,
-        },
-	inlayHints = {
-	  enable = true,
-	}
-      },
-    },
-    on_attach = function(client, bufnr)
-      -- Key mappings and other setup
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts) 
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr})
-      -- Add more mappings as needed
-    end,
-    capabilities = capabilities,
-  }
+lspconfig.rust_analyzer.setup({
+	-- Path to rust-analyzer binary
+	root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
+	settings = {
+		cmd = {
+			"/opt/homebrew/Cellar/rust-analyzer/2025-04-21/bin/rust-analyzer"
+		},
+		["rust-analyzer"] = {
+			assist = {
+				importGranularity = "crate",
+				importPrefix = "by_self",
+			},
+			cargo = {
+				loadOutDirsFromCheck = true,
+			},
+			procMacro = {
+				enable = true,
+			},
+		},
+	},
+	on_attach = function(client, bufnr)
+		-- Key mappings and other setup
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
+		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
+	end,
+	capabilities,
+})
+
+lspconfig.lua_ls.setup {
+	settings = {
+	},
+	on_attach = function(client, bufnr)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
+		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
+		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
+	end,
+	capabilities,
+}
+
+lspconfig.pyright.setup {
+	settings = {
+	},
+	on_attach = function(client, bufnr)
+		-- Key mappings and other setup
+		-- Example: Go to definition, hover, etc.
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+		-- Add more mappings as needed
+	end,
+	capabilities,
+}
+
+lspconfig.ts_ls.setup {
+	settings = {
+	},
+	on_attach = function(client, bufnr)
+		-- Key mappings and other setup
+		-- Example: Go to definition, hover, etc.
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+		-- Add more mappings as needed
+	end,
+	capabilities,
+}
