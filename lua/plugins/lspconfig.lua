@@ -11,7 +11,6 @@ local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_cli
 lspconfig.jdtls.setup {
 	settings = {
 		java = {
-			home = '/opt/homebrew/Cellar/openjdk@21/21.0.7/libexec/openjdk.jdk/Contents/Home'
 		},
 	},
 	on_attach = function(client, bufnr)
@@ -33,9 +32,6 @@ lspconfig.rust_analyzer.setup({
 	-- Path to rust-analyzer binary
 	root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
 	settings = {
-		cmd = {
-			"/opt/homebrew/Cellar/rust-analyzer/2025-04-21/bin/rust-analyzer"
-		},
 		["rust-analyzer"] = {
 			assist = {
 				importGranularity = "crate",
