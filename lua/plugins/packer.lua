@@ -29,6 +29,12 @@ local ensure_packer = function()
     use 'hrsh7th/cmp-cmdline'  -- Cmdline source for nvim-cmp
     use 'hrsh7th/cmp-nvim-lua' -- Nvim-cmp source for Neovim Lua API (good for plugin dev)
 
+    -- none-ls.nvim for formatting and other LSP-related tasks
+    use {
+        'nvimtools/none-ls.nvim',
+        requires = {'nvim-lspconfig'} -- Ensure this dependency is met
+    }
+
     use {
         'nvim-telescope/telescope.nvim',
         requires = { {'nvim-lua/plenary.nvim'} }

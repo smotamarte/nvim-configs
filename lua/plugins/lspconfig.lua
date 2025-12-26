@@ -1,98 +1,54 @@
--- lua/plugins/lspconfig.lua
-local lspconfig = require('lspconfig')
+-- No need to require 'lspconfig' anymore!
 local util = require('lspconfig/util')
-
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 
--- Capabilities for nvim-cmp
-local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- 1. Setup capabilities
+local capabilities = cmp_nvim_lsp.default_capabilities()
 
--- Configure the Java LSP server
-lspconfig.jdtls.setup {
-	settings = {
-		java = {
-		},
-	},
-	on_attach = function(client, bufnr)
-		-- Key mappings and other setup
-		-- Example: Go to definition, hover, etc.
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
-		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
-		-- Add more mappings as needed
-	end,
-	capabilities,
-}
-
--- Configure rust-analyzer
-lspconfig.rust_analyzer.setup({
-	-- Path to rust-analyzer binary
-	root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
-	settings = {
-		["rust-analyzer"] = {
-			assist = {
-				importGranularity = "crate",
-				importPrefix = "by_self",
-			},
-			cargo = {
-				loadOutDirsFromCheck = true,
-			},
-			procMacro = {
-				enable = true,
-			},
-		},
-	},
-	on_attach = function(client, bufnr)
-		-- Key mappings and other setup
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
-		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
-	end,
-	capabilities,
+-- 2. Define a function to apply your settings
+-- This replaces the old 'on_attach'
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+        local bufnr = args.buf
+        local opts = { buffer = bufnr }
+        
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, opts)
+        vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, opts)
+    end,
 })
 
-lspconfig.lua_ls.setup {
-	settings = {
-	},
-	on_attach = function(client, bufnr)
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
-		vim.keymap.set('n', '<Leader>f', vim.lsp.buf.format, { buffer = bufnr })
-		vim.keymap.set('n', 'ds', vim.lsp.buf.document_symbol, { buffer = bufnr })
-	end,
-	capabilities,
+-- 3. Configure Servers using the NEW native API
+local servers = {
+    jdtls = {
+        settings = { java = {} }
+    },
+    rust_analyzer = {
+        root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
+        settings = {
+            ["rust-analyzer"] = {
+                assist = { importGranularity = "crate", importPrefix = "by_self" },
+                cargo = { loadOutDirsFromCheck = true },
+                procMacro = { enable = true },
+            },
+        },
+    },
+    lua_ls = {
+        settings = {
+            Lua = { diagnostics = { globals = { 'vim' } } }
+        }
+    },
+    pyright = {},
+    ts_ls = {}
 }
 
-lspconfig.pyright.setup {
-	settings = {
-	},
-	on_attach = function(client, bufnr)
-		-- Key mappings and other setup
-		-- Example: Go to definition, hover, etc.
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-		-- Add more mappings as needed
-	end,
-	capabilities,
-}
-
-lspconfig.ts_ls.setup {
-	settings = {
-	},
-	on_attach = function(client, bufnr)
-		-- Key mappings and other setup
-		-- Example: Go to definition, hover, etc.
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
-		-- Add more mappings as needed
-	end,
-	capabilities,
-}
+-- 4. Apply the configs
+for name, config in pairs(servers) do
+    config.capabilities = capabilities
+    -- This is the new way (Neovim 0.11)
+    vim.lsp.config(name, config)
+    vim.lsp.enable(name)
+end
