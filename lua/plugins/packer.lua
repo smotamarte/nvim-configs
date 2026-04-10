@@ -20,9 +20,19 @@ local ensure_packer = function()
     use 'morhetz/gruvbox'
     use 'wbthomason/packer.nvim'
     use 'nvim-lua/plenary.nvim'
-    use 'neovim/nvim-lspconfig'
+    use {
+      'neovim/nvim-lspconfig',
+      config = function()
+        require('plugins.lspconfig')
+      end
+    }
 
-    use 'hrsh7th/nvim-cmp'    -- Autocompletion plugin
+    use {
+      'hrsh7th/nvim-cmp',
+      config = function()
+        require('plugins.cmp')
+      end
+    }
     use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
     use 'hrsh7th/cmp-buffer'   -- Buffer source for nvim-cmp
     use 'hrsh7th/cmp-path'     -- Path source for nvim-cmp
@@ -57,10 +67,12 @@ local ensure_packer = function()
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
+
         config = function()
           require('plugins.treesitter') -- Ensure this line is added to load the Treesitter config
         end
       }
+
  
     if packer_bootstrap then
       require('packer').sync()
