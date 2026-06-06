@@ -1,53 +1,58 @@
-# Neovim Configuration
+# Neovim Configuration Dependencies
 
-This is a personal Neovim configuration tailored for development in several languages. It uses `packer.nvim` for plugin management.
+This is a list of all dependencies and plugins configured on top of vanilla Neovim (`v0.8.0+`) for this setup.
 
-## Prerequisites
+## 1. External & System Dependencies
 
-Before you begin, ensure you have the following installed:
+These tools are installed via your system package manager (e.g., `brew`, `apt`, `pacman`) or language-specific managers:
 
-*   **Neovim (v0.8.0+):** The editor itself.
-*   **Git:** For cloning this repository and for plugin management.
-*   **A C compiler:** For building some plugins and Treesitter parsers.
-
-## Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url> ~/.config/nvim
-    ```
-2.  **Start Neovim:**
-    Open Neovim. The first time you do, `packer.nvim` will automatically install itself and all the configured plugins.
-3.  **Sync Plugins:**
-    Run the `:PackerSync` command in Neovim to ensure all plugins are installed and up-to-date.
-
-## Dependencies
-
-This configuration relies on several external dependencies for full functionality.
+### System Utilities
+*   **Git**: Required for cloning the configuration and plugin management.
+*   **C Compiler** (`gcc` or `clang`): Required for building Treesitter parsers and certain plugins.
+*   **ripgrep** (`rg`): Required for high-performance fuzzy searching with Telescope.
+*   **Nerd Font**: Highly recommended to correctly display file and UI icons.
 
 ### Language Servers (LSPs)
+*   **Java**: `jdtls`
+*   **Rust**: `rust-analyzer`
+*   **Lua**: `lua-language-server`
+*   **Python**: `pyright`
+*   **TypeScript / JavaScript**: `typescript-language-server`
 
-You need to install the following language servers for their respective languages:
+---
 
-*   **Java:** `jdtls`
-*   **Rust:** `rust-analyzer`
-*   **Lua:** `lua-language-server`
-*   **Python:** `pyright`
-*   **TypeScript:** `typescript-language-server`
+## 2. Neovim Plugins (Packer)
 
-You can typically install these using your system's package manager (e.g., `brew`, `apt`) or a language-specific package manager (e.g., `npm`, `pip`).
+These plugins are managed by `packer.nvim` and extend Neovim's default editing capabilities:
 
-### Treesitter Parsers
+### Plugin & Package Management
+*   [packer.nvim](https://github.com/wbthomason/packer.nvim) – Plugin manager for Neovim.
 
-The following Treesitter parsers are required for syntax highlighting and code analysis. They should be installed automatically by `nvim-treesitter` when you open a relevant file for the first time.
+### Color & UI Theme
+*   [gruvbox](https://github.com/morhetz/gruvbox) – Retro groove color scheme.
 
-*   `rust`
-*   `lua`
-*   `python`
-*   `javascript`
-*   `java`
+### Libraries & API Extensions
+*   [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – Standard Lua functions library used by Telescope and Neogit.
 
-## Recommended Tools
+### Language Server Protocol (LSP)
+*   [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) – Quickstart configurations for the Neovim LSP client.
+*   [none-ls.nvim](https://github.com/nvimtools/none-ls.nvim) – Inject LSP diagnostics, code actions, and formatting.
 
-*   **ripgrep:** For significantly faster searching with Telescope.
-*   **Nerd Font:** To correctly display icons in the UI.
+### Autocompletion (nvim-cmp)
+*   [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) – Autocompletion engine.
+*   [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp) – LSP completion source.
+*   [cmp-buffer](https://github.com/hrsh7th/cmp-buffer) – Buffer words completion source.
+*   [cmp-path](https://github.com/hrsh7th/cmp-path) – File system paths completion source.
+*   [cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline) – Command line completion source.
+*   [cmp-nvim-lua](https://github.com/hrsh7th/cmp-nvim-lua) – Neovim Lua API completion source.
+
+### Fuzzy Finder & Search
+*   [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) – Highly extensible fuzzy finder over lists.
+
+### Git Integration
+*   [neogit](https://github.com/TimUntersberger/neogit) – Magit clone for Neovim.
+*   [diffview.nvim](https://github.com/sindrets/diffview.nvim) – Single-tab git diff view.
+
+### Treesitter & Syntax Highlighting
+*   [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) – Incremental parsing library for syntax highlighting.
+    *   *Installed Parsers*: `rust`, `lua`, `python`, `javascript`, `java`
