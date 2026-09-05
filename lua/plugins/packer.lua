@@ -73,7 +73,17 @@ local ensure_packer = function()
         end
       }
 
- 
+    use {
+      'nvim-tree/nvim-tree.lua',
+      requires = {
+        'nvim-tree/nvim-web-devicons',
+      },
+      config = function()
+        require('plugins.nvim-tree')
+      end
+    }
+
+
     if packer_bootstrap then
       require('packer').sync()
     end

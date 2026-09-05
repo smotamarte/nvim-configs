@@ -27,8 +27,35 @@ set_keymap('n', '<Leader>j', '<C-w>j', default_opts) -- Move to below window
 set_keymap('n', '<Leader>k', '<C-w>k', default_opts) -- Move to above window
 set_keymap('n', '<Leader>l', '<C-w>l', default_opts) -- Move to right window
 
+-- File explorer
+set_keymap('n', '<Leader>e', ':NvimTreeToggle<CR>', default_opts) -- Toggle file explorer
+
 -- Telescope mappings
 set_keymap('n', '<Leader>ff', ':Telescope find_files<CR>', default_opts) -- Find files
 set_keymap('n', '<Leader>fg', ':Telescope live_grep<CR>', default_opts) -- Live grep
 set_keymap('n', '<Leader>fb', ':Telescope buffers<CR>', default_opts) -- List buffers
 set_keymap('n', '<Leader>fh', ':Telescope help_tags<CR>', default_opts) -- Help tags
+
+-- LSP mappings
+vim.keymap.set('n', '<Leader>li', function()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if vim.tbl_isempty(clients) then
+    vim.notify("No active LSP clients for current buffer", vim.log.levels.WARN)
+    return
+  end
+  
+  local info = { "=== Active LSP Clients ===" }
+  for _, client in ipairs(clients) do
+    table.insert(info, string.format("• [%d] %s", client.id, client.name))
+    table.insert(info, string.format("  Root Dir: %s", client.config.root_dir or "N/A"))
+    if client.config.cmd then
+      table.insert(info, string.format("  Command:  %s", table.concat(client.config.cmd, " ")))
+    end
+    if client.config.filetypes then
+      table.insert(info, string.format("  Files:    %s", table.concat(client.config.filetypes, ", ")))
+    end
+  end
+  vim.notify(table.concat(info, "\n"), vim.log.levels.INFO)
+end, { desc = "LSP: List active clients for current buffer", noremap = true, silent = true })
+
+

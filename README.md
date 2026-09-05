@@ -18,6 +18,7 @@ These tools are installed via your system package manager (e.g., `brew`, `apt`, 
 *   **Lua**: `lua-language-server`
 *   **Python**: `pyright`
 *   **TypeScript / JavaScript**: `typescript-language-server`
+*   **C / C++**: `clangd`
 
 ---
 

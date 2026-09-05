@@ -27,7 +27,6 @@ local servers = {
         settings = { java = {} }
     },
     rust_analyzer = {
-        root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
         settings = {
             ["rust-analyzer"] = {
                 assist = { importGranularity = "crate", importPrefix = "by_self" },
@@ -42,7 +41,8 @@ local servers = {
         }
     },
     pyright = {},
-    ts_ls = {}
+    ts_ls = {},
+    clangd = {}
 }
 
 -- 4. Apply the configs
